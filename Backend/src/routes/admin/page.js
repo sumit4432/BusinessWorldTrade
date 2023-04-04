@@ -1,19 +1,14 @@
 const express = require("express");
-const router = express.Router();
-
-const {
-  upload,
-  requireSignin,
-  adminMiddleware,
-} = require("../../common-middleware");
-
+const { upload } = require("../../common-middleware");
 const { createPage } = require("../../controller/admin/page");
+const router = express.Router();
 
 router.post(
   `/page/create`,
-  requireSignin,
-  adminMiddleware,
-  upload.fields([{ name: "banners" }, { name: "products" }]),
+  upload.fields([
+    { name: "banners", maxCount: 1 },
+    { name: "products", maxCount: 8 },
+  ]),
   createPage
 );
 

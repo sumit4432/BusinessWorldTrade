@@ -11,7 +11,10 @@ const storage = multer.diskStorage({
     cb(null, shortid.generate() + "-" + file.originalname);
   },
 });
-exports.upload = multer({ storage });
+
+const upload = multer({ storage });
+
+exports.upload = upload;
 
 exports.requireSignin = (req, res, next) => {
   if (req.headers.authorization) {
@@ -22,7 +25,6 @@ exports.requireSignin = (req, res, next) => {
     return res.status(500).json({ message: "authorization is required" });
   }
 
-  //jwt.decode();
   next();
 };
 

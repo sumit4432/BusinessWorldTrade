@@ -1,6 +1,4 @@
-const { status } = require("init");
-const Page = require("../../models/page");
-const mongoose = require("mongoose");
+//
 
 exports.createPage = (req, res) => {
   const { banners, products } = req.files;
@@ -17,12 +15,12 @@ exports.createPage = (req, res) => {
     }));
   }
 
-  req.body.createdBy = req.user._id;
-  const page = new Page(req.body);
+  // req.body.createdBy = req.user._id;
+  // const page = new Page(req.body);
 
-  page.save((error, page) => {
-    if (error) return res.status(400).json({ error });
-    if (page) return res.status(201).json({ page });
-  });
+  // page.save((error, page) => {
+  //   if (error) return res.status(400).json({ error });
+  //   if (page) return res.status(201).json({ page });
+  // });
   res.status(200).json({ body: req.body });
 };
