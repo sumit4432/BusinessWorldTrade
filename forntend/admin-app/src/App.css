@@ -1,0 +1,8 @@
+.text-center {
+  height: 150px;
+  background-color: white;
+  justify-content: center;
+  justify-self: center;
+  padding: 40px;
+  margin: 5rem;
+}
