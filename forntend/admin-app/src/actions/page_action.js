@@ -4,9 +4,8 @@ import { pageConstants } from "./constant";
 export const createPage = (form) => {
   return async (dispatch) => {
     dispatch({ type: pageConstants.CREATE_PAGE_REQUEST });
-
     try {
-      const res = await axios("/page/create", form);
+      const res = await axios.post("/page/create", form);
       if (res.status === 201) {
         dispatch({
           type: pageConstants.CREATE_PAGE_SUCCESS,
