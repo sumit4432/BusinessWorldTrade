@@ -82,6 +82,8 @@ const Category = (props) => {
     return myCategories;
   };
 
+  // Createcategory List
+
   const createCategoryList = (categories, options = []) => {
     for (let category of categories) {
       options.push({
@@ -97,6 +99,8 @@ const Category = (props) => {
 
     return options;
   };
+
+  // handleCategoryImages
 
   const handleCategoryImage = (e) => {
     setCategoryImage(e.target.files[0]);

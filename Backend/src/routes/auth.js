@@ -8,7 +8,6 @@ const {
 } = require("../validators/auth");
 
 const router = express.Router();
-
 router.post("/signin", validateSigninRequest, isRequestValidates, signin);
 router.post("/signup", validateSignupRequest, isRequestValidates, signup);
 
