@@ -1,10 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { Col, Container, Row } from "react-bootstrap";
-// import { useDispatch, useSelector } from "react-redux";
-// import { createPage } from "../../actions/page_action";
-
-// import linearCategoriesList from "../../helpers/linearCategories";
-// import { Input } from "../../components/UI/Input";
 import Layout from "../../components/Layout";
 import NewModal from "../../components/UI/Modal";
 import { Col, Container, Row } from "react-bootstrap";
@@ -36,13 +30,15 @@ const NewPage = () => {
   // onCategoryChange
 
   const onCategoryChange = (e) => {
-    const category = categories.find(
+    const selectedCategory = categories.find(
       (category) => category.value === e.target.value
     );
-    setCategoryId(e.target.value);
-    setType(category.type);
-  };
 
+    if (selectedCategory) {
+      setCategoryId(selectedCategory.value);
+      setType(selectedCategory.type);
+    }
+  };
   // handle Form Banners
 
   const handleBannersChange = (e) => {
@@ -59,7 +55,7 @@ const NewPage = () => {
   //  submitPage Form
 
   const submitPageForm = (e) => {
-    //e.target.preventDefault();
+    e.preventDefault();
 
     if (title === "") {
       alert("Title is required");
@@ -89,6 +85,7 @@ const NewPage = () => {
     });
 
     dispatch(createPage(form));
+    console.log("createPage here", createPage);
   };
 
   const renderCategoryPageModal = () => {
