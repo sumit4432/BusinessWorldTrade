@@ -18,6 +18,7 @@ const NewPage = () => {
   const [products, setProducts] = useState([]);
   const [type, setType] = useState("");
   const dispatch = useDispatch();
+  console.log("here is dispatch", dispatch);
 
   //use Effect
 
@@ -30,32 +31,28 @@ const NewPage = () => {
   // onCategoryChange
 
   const onCategoryChange = (e) => {
-    const selectedCategory = categories.find(
+    const category = categories.find(
       (category) => category.value === e.target.value
     );
-
-    if (selectedCategory) {
-      setCategoryId(selectedCategory.value);
-      setType(selectedCategory.type);
-    }
+    setCategoryId(e.target.value);
+    setType(category ? category.type : "");
   };
   // handle Form Banners
-
   const handleBannersChange = (e) => {
-    console.log("Banners Images", e);
-    setBanners([...banners, e.target.files[0]]);
+    console.log("Banners Images", e.target.files);
+    setBanners([...banners, ...e.target.files]);
   };
 
   // handle For Products
   const handleProductsChange = (e) => {
-    console.log("Products images");
-    setProducts([...products, e.target.files[0]]);
+    console.log("Products images", e.target.files);
+    setProducts([...products, ...e.target.files]);
   };
 
   //  submitPage Form
 
   const submitPageForm = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (title === "") {
       alert("Title is required");
@@ -74,18 +71,7 @@ const NewPage = () => {
     products.forEach((product, index) => {
       form.append("products", product);
     });
-
-    console.log("Form data: ", {
-      title,
-      description,
-      categoryId,
-      type,
-      banners,
-      products,
-    });
-
     dispatch(createPage(form));
-    console.log("createPage here", createPage);
   };
 
   const renderCategoryPageModal = () => {
@@ -106,8 +92,8 @@ const NewPage = () => {
                   onChange={onCategoryChange}
                 >
                   <option value="">Select Category</option>
-                  {categories.map((cat) => (
-                    <option key={cat._id} value={cat._id}>
+                  {categories.map((cat, _id) => (
+                    <option key={cat.value} value={cat.value}>
                       {cat.name}
                     </option>
                   ))}

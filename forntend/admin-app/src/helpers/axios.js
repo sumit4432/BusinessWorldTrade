@@ -1,16 +1,19 @@
 import axios from "axios";
-import { api } from "../UrlConfig";
-import store from "../store/index";
+
+import store from "../store";
 import { authContants } from "../actions/constant";
+import { api } from "../UrlConfig";
 
 const token = window.localStorage.getItem("token");
-const axiosInstance = axios.create({
+
+const axiosIntance = axios.create({
   baseURL: api,
   headers: {
     Authorization: token ? `Bearer ${token}` : "",
   },
 });
-axiosInstance.interceptors.request.use((req) => {
+
+axiosIntance.interceptors.request.use((req) => {
   const { auth } = store.getState();
   if (auth.token) {
     req.headers.Authorization = `Bearer ${auth.token}`;
@@ -18,19 +21,19 @@ axiosInstance.interceptors.request.use((req) => {
   return req;
 });
 
-axiosInstance.interceptors.response.use(
+axiosIntance.interceptors.response.use(
   (res) => {
     return res;
   },
-  (error, res) => {
+  (error) => {
     console.log(error.response);
-    const status = error.response.status;
+    const status = error.response ? error.response.status : 500;
     if (status && status === 500) {
       localStorage.clear();
       store.dispatch({ type: authContants.LOGOUT_SUCCESS });
     }
-    return Promise.reject(error.res);
+    return Promise.reject(error);
   }
 );
 
-export default axiosInstance;
+export default axiosIntance;

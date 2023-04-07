@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../../components/Layout/index";
+import Layout from "../../components/Layout";
 import { Container, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,7 +8,6 @@ import {
   updateCategories,
   deleteCategories as deleteCategoriesAction,
 } from "../../actions";
-
 import CheckboxTree from "react-checkbox-tree";
 import {
   IoIosCheckboxOutline,
@@ -22,9 +21,14 @@ import {
 
 import "react-checkbox-tree/lib/react-checkbox-tree.css";
 import UpdateCategoriesModal from "./components/UpdateCategoriesModal";
-import AddCategoryModal from "./components/AddCategoryModal.js";
 import "./style.css";
 import NewModal from "../../components/UI/Modal";
+import AddCategoryModal from "./components/AddCategoryModal.js";
+
+/**
+ * @author
+ * @function Category
+ **/
 
 const Category = (props) => {
   const category = useSelector((state) => state.category);
@@ -58,16 +62,12 @@ const Category = (props) => {
     form.append("name", categoryName);
     form.append("parentId", parentCategoryId);
     form.append("categoryImage", categoryImage);
-
     dispatch(addCategory(form));
     setCategoryName("");
     setParentCategoryId("");
     setShow(false);
   };
-
   const handleShow = () => setShow(true);
-
-  // render categories
 
   const renderCategories = (categories) => {
     let myCategories = [];
@@ -81,8 +81,6 @@ const Category = (props) => {
     }
     return myCategories;
   };
-
-  // Createcategory List
 
   const createCategoryList = (categories, options = []) => {
     for (let category of categories) {
@@ -100,8 +98,6 @@ const Category = (props) => {
     return options;
   };
 
-  // handleCategoryImages
-
   const handleCategoryImage = (e) => {
     setCategoryImage(e.target.files[0]);
   };
@@ -115,38 +111,34 @@ const Category = (props) => {
     const categories = createCategoryList(category.categories);
     const checkedArray = [];
     const expandedArray = [];
-
     checked.length > 0 &&
       checked.forEach((categoryId, index) => {
         const category = categories.find(
-          (category, _index) => categoryId === category.value
+          (category, _index) => categoryId == category.value
         );
         category && checkedArray.push(category);
       });
-
     expanded.length > 0 &&
       expanded.forEach((categoryId, index) => {
         const category = categories.find(
-          (category, _index) => categoryId === category.value
+          (category, _index) => categoryId == category.value
         );
         category && expandedArray.push(category);
       });
-
     setCheckedArray(checkedArray);
     setExpandedArray(expandedArray);
   };
 
   const handleCategoryInput = (key, value, index, type) => {
-    console.log("handle Category input", value);
-
-    if (type === "checked") {
+    console.log(value);
+    if (type == "checked") {
       const updatedCheckedArray = checkedArray.map((item, _index) =>
-        index === _index ? { ...item, [key]: value } : item
+        index == _index ? { ...item, [key]: value } : item
       );
       setCheckedArray(updatedCheckedArray);
-    } else if (type === "expanded") {
+    } else if (type == "expanded") {
       const updatedExpandedArray = expandedArray.map((item, _index) =>
-        index === _index ? { ...item, [key]: value } : item
+        index == _index ? { ...item, [key]: value } : item
       );
       setExpandedArray(updatedExpandedArray);
     }
@@ -179,11 +171,9 @@ const Category = (props) => {
     const checkedIdsArray = checkedArray.map((item, index) => ({
       _id: item.value,
     }));
-
     const expandedIdsArray = expandedArray.map((item, index) => ({
       _id: item.value,
     }));
-
     const idsArray = expandedIdsArray.concat(checkedIdsArray);
 
     if (checkedIdsArray.length > 0) {
@@ -223,7 +213,6 @@ const Category = (props) => {
         {expandedArray.map((item, index) => (
           <span key={index}>{item.name}</span>
         ))}
-
         <h5>Checked</h5>
         {checkedArray.map((item, index) => (
           <span key={index}>{item.name}</span>
@@ -275,7 +264,6 @@ const Category = (props) => {
           </Col>
         </Row>
       </Container>
-
       <AddCategoryModal
         show={show}
         handleClose={() => setShow(false)}
@@ -288,7 +276,6 @@ const Category = (props) => {
         categoryList={categoryList}
         handleCategoryImage={handleCategoryImage}
       />
-
       <UpdateCategoriesModal
         show={updateCategoryModal}
         handleClose={() => setUpdateCategoryModal(false)}
@@ -301,7 +288,6 @@ const Category = (props) => {
         categoryList={categoryList}
       />
       {/* {renderAddCategoryModal()} */}
-
       {renderDeleteCategoryModal()}
     </Layout>
   );
