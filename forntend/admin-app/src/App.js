@@ -7,7 +7,6 @@ import "./App.css";
 import PrivateRoute from "./components/HOC/PrivateRoute";
 
 import { isUserLoggedIn, getInitialData } from "./actions";
-import { Signin } from "./containers/Signin";
 import { Signup } from "./containers/Signup";
 
 import NewPage from "./containers/newPage";
@@ -15,19 +14,20 @@ import Category from "./containers/category";
 import { Products } from "./containers/products";
 import Orders from "./containers/orders";
 import Home from "./containers/Home";
+import Signin from "./containers/Signin";
 
 const App = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
-  // Load user authentication status and initial data on app mount/update
+  // components didMount and components DidUpdate
   useEffect(() => {
     if (!auth.authenticate) {
       dispatch(isUserLoggedIn());
-    } else {
+    } else if (auth.authenticate) {
       dispatch(getInitialData());
     }
-  }, [auth.authenticate]);
+  }, [dispatch, auth.authenticate]);
 
   return (
     <div className="App">
@@ -35,7 +35,6 @@ const App = () => {
         <Route path="/signin" component={Signin} />
         <Route path="/signup" component={Signup} />
         <PrivateRoute path="/" exact component={Home} />
-        {/* <PrivateRoute path="/page" component={NewPage} /> */}
         <PrivateRoute path="/page" component={NewPage} />
         <PrivateRoute path="/category" component={Category} />
         <PrivateRoute path="/products" component={Products} />

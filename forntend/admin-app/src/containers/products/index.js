@@ -8,8 +8,8 @@ import { addProduct } from "../../actions";
 import "./style.css";
 import { genratePublicUrl } from "../../UrlConfig";
 import NewModal from "../../components/UI/Modal";
-import { Input } from "../../components/UI/Input";
 import Layout from "../../components/Layout";
+import Input from "../../components/UI/Input";
 
 export const Products = () => {
   const [name, setName] = useState("");

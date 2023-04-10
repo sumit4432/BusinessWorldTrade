@@ -1,13 +1,13 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import NewModal from "../../../components/UI/Modal";
-import { Input } from "../../../components/UI/Input";
+import Input from "../../../components/UI/Input";
 
 const AddCategoryModal = (props) => {
   const {
     show,
     handleClose,
-    modalTitle,
+    ModalTitle,
     categoryName,
     setCategoryName,
     parentCategoryId,
@@ -22,7 +22,7 @@ const AddCategoryModal = (props) => {
       show={show}
       handleClose={handleClose}
       onSubmit={onSubmit}
-      modalTitle={modalTitle}
+      ModalTitle={ModalTitle}
     >
       <Row>
         <Col>

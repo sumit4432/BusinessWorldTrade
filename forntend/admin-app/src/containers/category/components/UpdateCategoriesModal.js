@@ -1,13 +1,13 @@
 import React from "react";
 import NewModal from "../../../components/UI/Modal";
 import { Col, Row } from "react-bootstrap";
-import { Input } from "../../../components/UI/Input";
+import Input from "../../../components/UI/Input";
 
 const UpdateCategoriesModal = (props) => {
   const {
     show,
     handleClose,
-    modalTitle,
+    ModalTitle,
     size,
     expandedArray,
     checkedArray,
@@ -23,7 +23,7 @@ const UpdateCategoriesModal = (props) => {
       show={show}
       handleClose={handleClose}
       onSubmit={onSubmit}
-      modalTitle={modalTitle}
+      ModalTitle={ModalTitle}
       size={size}
     >
       <Row>

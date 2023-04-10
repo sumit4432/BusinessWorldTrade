@@ -6,7 +6,7 @@ import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../actions/user_actions";
 import Layout from "../../components/Layout";
-import { Input } from "../../components/UI/Input";
+import Input from "../../components/UI/Input";
 
 export const Signup = () => {
   const [firstName, setFristName] = useState("");

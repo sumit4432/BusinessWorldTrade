@@ -5,23 +5,16 @@ import { login } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { isUserLoggedIn } from "../../actions";
-import { Input } from "../../components/UI/Input";
-import Layout from "../../components/Layout";
 
-export const Signin = () => {
+import Input from "../../components/UI/Input";
+import Layout from "../../components/Layout";
+const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const auth = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   if (!auth.authenticate) {
-  //     dispatch(isUserLoggedIn());
-  //   }
-  // }, []);
-
   const userLogin = (e) => {
     e.preventDefault();
     const user = {
@@ -43,7 +36,7 @@ export const Signin = () => {
               <Form onSubmit={userLogin}>
                 <Form.Group>
                   <Input
-                    Label="Email"
+                    label="Email"
                     placeholder="Email"
                     value={email}
                     type="text"
@@ -53,7 +46,7 @@ export const Signin = () => {
 
                 <Form.Group>
                   <Input
-                    Label="Password"
+                    label="Password"
                     placeholder="Password"
                     value={password}
                     type="text"
@@ -76,3 +69,5 @@ export const Signin = () => {
     </>
   );
 };
+
+export default Signin;

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import NewModal from "../../components/UI/Modal";
 import { Col, Container, Row } from "react-bootstrap";
-import { Input } from "../../components/UI/Input";
 import linearCategoriesList from "../../helpers/linearCategories";
 import { useDispatch, useSelector } from "react-redux";
 import { createPage } from "../../actions";
+import Input from "../../components/UI/Input";
 
 const NewPage = () => {
   const [createModal, setCreateModal] = useState(false);
@@ -18,15 +18,24 @@ const NewPage = () => {
   const [products, setProducts] = useState([]);
   const [type, setType] = useState("");
   const dispatch = useDispatch();
-  console.log("here is dispatch", dispatch);
-
+  const page = useSelector((state) => state.page);
   //use Effect
-
   useEffect(() => {
     console.log("useEffect PAge Category", category);
     setCategories(linearCategoriesList(category.categories));
   }, [category]);
-  console.log("Page categories", categories);
+
+  useEffect(() => {
+    if (!page.loading) {
+      setCreateModal(false);
+      setTitle("");
+      setDescription();
+      setType("");
+      setCategoryId("");
+      setBanners([]);
+      setProducts([]);
+    }
+  }, [page]);
 
   // onCategoryChange
 
@@ -80,7 +89,7 @@ const NewPage = () => {
         <NewModal
           show={createModal}
           ModalTitle={"Create New Page"}
-          handleClose={submitPageForm}
+          handleClose={() => setCreateModal(false)}
           onSubmit={submitPageForm}
         >
           <Container>
@@ -168,9 +177,15 @@ const NewPage = () => {
   return (
     <>
       <Layout sidebar>
-        {renderCategoryPageModal()}
+        {page.loading ? (
+          <p>Please wait page is Loading....</p>
+        ) : (
+          <>
+            {renderCategoryPageModal()}
 
-        <button onClick={() => setCreateModal(true)}>Create Page</button>
+            <button onClick={() => setCreateModal(true)}>Create Page</button>
+          </>
+        )}
       </Layout>
     </>
   );

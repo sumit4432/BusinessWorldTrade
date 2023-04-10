@@ -114,14 +114,14 @@ const Category = (props) => {
     checked.length > 0 &&
       checked.forEach((categoryId, index) => {
         const category = categories.find(
-          (category, _index) => categoryId == category.value
+          (category, _index) => categoryId === category.value
         );
         category && checkedArray.push(category);
       });
     expanded.length > 0 &&
       expanded.forEach((categoryId, index) => {
         const category = categories.find(
-          (category, _index) => categoryId == category.value
+          (category, _index) => categoryId === category.value
         );
         category && expandedArray.push(category);
       });

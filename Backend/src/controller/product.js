@@ -31,21 +31,21 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-exports.getProductsBySlug = (req, res) => {
-  const { slug } = req.params;
-  let category;
+// exports.getProductsBySlug = (req, res) => {
+//   const { slug } = req.params;
+//   let category;
 
-  Category.findOne({ slug: slug })
-    .select("_id")
-    .exec()
-    .then((result) => {
-      category = result;
-      return Product.find({ category: category._id }).exec();
-    })
-    .then((products) => {
-      res.status(200).json({ category, products });
-    })
-    .catch((error) => {
-      res.status(400).json({ error });
-    });
-};
+//   Category.findOne({ slug: slug })
+//     .select("_id")
+//     .exec()
+//     .then((result) => {
+//       category = result;
+//       return Product.find({ category: category._id }).exec();
+//     })
+//     .then((products) => {
+//       res.status(200).json({ category, products });
+//     })
+//     .catch((error) => {
+//       res.status(400).json({ error });
+//     });
+// };
