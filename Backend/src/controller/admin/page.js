@@ -15,12 +15,41 @@ exports.createPage = async (req, res) => {
         navigateTo: `/productClicked?categoryId=${req.body.category}&type=${req.body.type}`,
       }));
     }
+
     req.body.createdBy = req.user._id;
+
+    Page.findOne({ category: req.body.category }).exec((error, page) => {
+      if (error) {
+        res.status(400).json({ error });
+      }
+      if (page) {
+        Page.findOneAndUpdate({ category: req.body.category }, req.body).exec(
+          (error, updatedPage) => {
+            if (error) {
+              res.status(400).json({ error });
+            }
+            if (updatedPage) {
+              res.status(201).json({ page: updatedPage });
+            }
+          }
+        );
+      }
+    });
 
     const page = new Page(req.body);
     const savedPage = await page.save();
     res.status(201).json({ page: savedPage });
   } catch (error) {
     res.status(400).json({ error });
+  }
+};
+
+exports.getPage = (req, res) => {
+  const { category, type } = req.params;
+  if (type === "page") {
+    Page.findOne({ category: category }).exec((error, page) => {
+      if (error) res.status(200).json({ error });
+      if (page) res.status(201).json({ page });
+    });
   }
 };

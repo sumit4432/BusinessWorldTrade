@@ -5,18 +5,24 @@ import { getAllCategory } from "../../actions/category_actions";
 
 const MenuHeader = () => {
   const category = useSelector((state) => state.category);
+  const productType = useSelector((state) => state.productType); // declare and initialize productType
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllCategory());
   }, []);
+
   const renderCategories = (categories) => {
     let categoryItems = [];
     for (let category of categories) {
       categoryItems.push(
-        <li key={category._Id}>
+        <li key={category._id}>
           {category.parentId ? (
-            <a href={category.slug}>{category.name}</a>
+            <a
+              href={`${category.slug}?cid=${category._id}&type=${category.type}&productType=${productType}`}
+            >
+              {category.name}
+            </a>
           ) : (
             <span>{category.name}</span>
           )}
@@ -29,6 +35,7 @@ const MenuHeader = () => {
     }
     return categoryItems;
   };
+
   return (
     <>
       <div className="menuHeader">

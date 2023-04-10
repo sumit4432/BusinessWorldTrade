@@ -7,9 +7,9 @@ const ProductStore = (props) => {
 
   const [priceRange, setpriceRange] = useState({
     under5k: 5000,
-    under5k: 5000,
-    under5k: 5000,
-    under5k: 5000,
+    under6k: 6000,
+    under9k: 9000,
+    under10k: 10000,
   });
   const dispatch = useDispatch();
 
