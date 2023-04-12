@@ -26,15 +26,40 @@ const createCategories = (categories, parentId = null) => {
 };
 
 exports.initialData = async (req, res) => {
-  const categories = await Category.find({}).exec();
-  const products = await Product.find({ createdBy: req.user._id })
-    .select("_id name price quantity slug description productPictures category")
-
-    .populate({ path: "category", select: "_id name" })
-    .exec();
-
-  res.status(200).json({
-    categories: createCategories(categories),
-    products,
-  });
+  try {
+    const categories = await Category.find({}).exec();
+    const products = await Product.find({ createdBy: req.user._id })
+      .select(
+        "_id name price quantity slug description productPictures category"
+      )
+      .populate({ path: "category", select: "_id name" })
+      .exec();
+    res.status(200).json({
+      categories: createCategories(categories),
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
+
+// exports.initialData = async (req, res) => {
+//   const categories = await Category.find({}).exec();
+
+//   const products = await Product.find({ createdBy: req.user._id })
+
+//     .select("_id name price quantity slug description productPictures category")
+
+//     .populate({ path: "category", select: "_id name" })
+//     .exec();
+
+//   const orders = await Order.find({})
+//     .populate("items.productId", "name")
+//     .exec();
+//   res.status(200).json({
+//     categories: createCategories(categories),
+//     products,
+//     orders,
+//   });
+// };

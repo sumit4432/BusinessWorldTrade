@@ -4,7 +4,7 @@ const shortid = require("shortid");
 
 // create categories
 
-function createCategories(categories, parentId = null) {
+async function createCategories(categories, parentId = null) {
   const categoryList = [];
   let category;
 
@@ -20,7 +20,7 @@ function createCategories(categories, parentId = null) {
       name: cate.name,
       slug: cate.slug,
       parentId: cate.parentId,
-      children: createCategories(categories, cate._id),
+      children: await createCategories(categories, cate._id),
     });
   }
 
@@ -29,7 +29,7 @@ function createCategories(categories, parentId = null) {
 
 // addCategory
 
-exports.addCategory = (req, res) => {
+exports.addCategory = async (req, res) => {
   const categoryObj = {
     name: req.body.name,
     slug: `${slugify(req.body.name)}-${shortid.generate()}`,
@@ -46,28 +46,24 @@ exports.addCategory = (req, res) => {
 
   const cat = new Category(categoryObj);
 
-  cat
-    .save()
-    .then((category) => {
-      return res.status(201).json({ category });
-    })
-    .catch((error) => {
-      return res.status(500).json({ error });
-    });
+  try {
+    const category = await cat.save();
+    return res.status(201).json({ category });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
 };
 
 // getCategory
 
-exports.getCategories = (req, res) => {
-  Category.find({})
-    .exec()
-    .then((categories) => {
-      const categoryList = createCategories(categories);
-      return res.status(200).json({ categories, categoryList });
-    })
-    .catch((error) => {
-      return res.status(500).json({ error });
-    });
+exports.getCategories = async (req, res) => {
+  try {
+    const categories = await Category.find({});
+    const categoryList = await createCategories(categories);
+    return res.status(200).json({ categories, categoryList });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
 };
 
 // updateCategories

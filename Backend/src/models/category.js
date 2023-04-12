@@ -1,26 +1,35 @@
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema;
+
 const CategorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
+      trim: true,
       unique: true,
+      maxlength: 32,
     },
-
     slug: {
       type: String,
-      required: true,
       unique: true,
+      lowercase: true,
+      index: true,
     },
-    categoryImage: { type: String },
-    parentId: {
-      type: String,
+    parent: {
+      type: ObjectId,
+      ref: "Category",
+      default: null,
     },
-
-    type: {
-      type: String,
-    },
+    children: [
+      {
+        type: ObjectId,
+        ref: "Category",
+        default: [],
+      },
+    ],
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("category", CategorySchema);
+
+module.exports = mongoose.model("Category", CategorySchema);

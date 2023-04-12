@@ -1,12 +1,12 @@
 import axios from "axios";
-import { productsConstants } from "./constant";
+import { productsConstants } from "./constants"; // Changed from "./constant"
 
 export const getProductsBySlug = (slug) => {
   return async (dispatch) => {
     try {
-      const res = await axios.get(`/products/${slug}`);
+      const res = await axios.get(`/api/products/${slug}`);
       dispatch({
-        type: productsConstants.GET_PRODUCT_BY_SLUG_SUCCESS,
+        type: productsConstants.GET_PRODUCTS_BY_SLUG,
         payload: res.data,
       });
     } catch (error) {

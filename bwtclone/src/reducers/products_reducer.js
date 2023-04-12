@@ -6,7 +6,7 @@ const inintialState = {
 
 const productsReducer = (state = inintialState, action) => {
   switch (action.type) {
-    case productsConstants.GET_PRODCUT_BY_SLUG:
+    case productsConstants.GET_PRODUCTS_BY_SLUG:
       state = {
         ...state,
         products: action.payload.products,
